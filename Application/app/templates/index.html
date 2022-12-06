@@ -1,42 +1,85 @@
 {% extends "layout.html" %}
 
 {% block content %}
-{% load staticfiles %}
-<div class="main-container">
-    <div class="cloud-image">
-        <img src="{% static "app/img/successCloudNew.svg" %}" />
-    </div>
-    <div class="content">
-        <div class="tweet-container">
-            <a href="http://twitter.com/intent/tweet/?text=I%20just%20created%20a%20new%20Python%20Django%20website%20on%20Azure%20using%20Github%20Actions&hashtags=GithubActions%20%40Azure">
-                <img src="{% static "app/img/tweetThis.svg" %}" />
-            </a>            
+{% load static %}
+<div class="container" style='margin-top:1%'>
+    <div class="row justify-content-md-center">
+        <div class="col-8 mt-2">
+            <table class="table table-bordered text-center">
+                <thead>
+                  <tr>
+                    <th scope="col">成人肥胖定義</th>
+                    <th scope="col">身體質量指數(BMI)(kg/m<sup>2</sup>)</th>
+                    <th scope="col">腰圍(cm)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>體重過輕</td>
+                    <td>BMI < 18.5</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>健康體位</td>
+                    <td>18.5 <= BMI < 24</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>體位異常</td>
+                    <td>
+                        過重：24 <= BMI < 27<br> 
+                        輕度肥胖：27 <= BMI < 30<br> 
+                        中度肥胖：30 <= BMI < 35<br> 
+                        重度肥胖：BMI >= 35
+                    </td>
+                    <td>
+                        男性：>= 90 公分<br>
+                        女性：>= 80 公分
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="3">BMI = 體重(kg) ÷ 身高<sup>2</sup>(公尺)</td>
+                  </tr>
+                </tbody>
+              </table>
         </div>
-        <div class="content-body">
-            <div class="success-text">Success!</div>
-            <div class="description line-1"> GitHub workflow has been successfully setup</div>
-            <div class="description line-2"> Your Python Django app is up and running on Azure</div>
+        <div class="col-12 mt-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4 border-right" >
+                            <form action="{% url 'home' %}" method="POST">
+                                {% csrf_token %}
+                                {% for field in form %}
+                                    <div class="fieldWrapper">
+                                        {{ field.label_tag }} {{ field }}
+                                        <div class="text-danger">                                        
+                                            {{ field.errors }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <div class='mt-2'>
+                                    <button type="submit" class="btn btn-primary">送出</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-8">
+                            您的 BMI 為
+                            <div class="font-weight-bold ml-5" style='font-size:48px' id='bmi'>
+                                {{ bmi }}
+                            </div>
+                            屬於
+                            <div class="font-weight-bold ml-5" style='font-size:48px' id='bmi_message'>
+                                {{ bmi_means }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Get started right away </h2>
-        <p>
-            Clone your code repository and start developing your application on IDE of your choice
-        </p>
-        <p><a class="btn btn-default" href="https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Continuous Delivery</h2>
-        <p>Learn more about all you can do with Github Actions by visiting the documentation</p>
-        <p><a class="btn btn-default" href="https://docs.github.com/en/actions">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Github Repository</h2>
-        <p>Learn more about all you can do with Github by visiting the documentation</p>
-        <p><a class="btn btn-default" href="https://docs.github.com">Learn more &raquo;</a></p>
+        <div class="col-12 text-center mt-1">
+            SELab 關心您的身體健康
+        </div>
     </div>
 </div>
 

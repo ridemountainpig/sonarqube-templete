@@ -19,11 +19,10 @@ jobs:
     name: Build and Run tests
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Python ${{ env.PYTHON_VERSION }}
-      uses: actions/setup-python@v2
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
       with:
-        python-version: ${{ env.PYTHON_VERSION }}
+        python-version: '3.10'
 
     - name: Install Dependancies
       continue-on-error: false

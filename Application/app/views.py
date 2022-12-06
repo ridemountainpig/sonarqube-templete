@@ -1,46 +1,20 @@
-"""
-Definition of views.
-"""
-
 from django.shortcuts import render
 from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
+from .forms import BmiForm
+from .utils import bmi_calculator
 
 def home(request):
-    """Renders the home page."""
-    assert isinstance(request, HttpRequest)
-    return render(
-        request,
-        'index.html',
-        {
-            'title':'Home Page',
-            'year':datetime.now().year,
-        }
-    )
+    bmi = ''
+    year = datetime.now().year
+    form = BmiForm()
+    if request.method=='POST':
+        form = BmiForm(request.POST)
+        if form.is_valid():
+            form_cd = form.cleaned_data
+            h = float(form_cd.get('height'))
+            w = float(form_cd.get('weight'))
+            bmi, bmi_means = bmi_calculator(h, w)
+    return render(request, 'index.html', locals())
 
-def contact(request):
-    """Renders the contact page."""
-    assert isinstance(request, HttpRequest)
-    return render(
-        request,
-        'contact.html',
-        {
-            'title':'Contact',
-            'message':'Your contact page.',
-            'year':datetime.now().year,
-        }
-    )
-
-def about(request):
-    """Renders the about page."""
-    assert isinstance(request, HttpRequest)
-    return render(
-        request,
-        'about.html',
-        {
-            'title':'About',
-            'message':'Your application description page.',
-            'year':datetime.now().year,
-        }
-    )

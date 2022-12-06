@@ -6,7 +6,8 @@ import sys
 import pytest
 import time
 
-class FunctionalTests(unittest.TestCase):
+
+class BmiFunctionalTests(unittest.TestCase):
 
 	def setUp(self):
 		options = webdriver.ChromeOptions()
@@ -21,8 +22,18 @@ class FunctionalTests(unittest.TestCase):
 		while True:
 			try:
 				response = self.driver.get(webAppUrl)
-				title = self.driver.title
-				self.assertIn("FCU BMI 計算機", title)
+				
+				height = self.driver.find_element_by_id("id_height")
+				weight = self.driver.find_element_by_id("id_weight")
+
+				height.send_keys('1.7')
+				weight.send_keys('60')
+				weight.submit()
+
+				time.sleep(1)
+				bmi = self.driver.find_element_by_id("bmi")
+
+				self.assertEqual("20.76", bmi.text)
 				break
 			except Exception as e:
 				print('"##vso[task.logissue type=error;]Test test_selenium failed with error: ' + str(e))

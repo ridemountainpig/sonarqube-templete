@@ -19,22 +19,21 @@ os.environ.setdefault(
 )
 django.setup()
 
-class ViewTest(TestCase):
+from app.utils import bmi_calculator
+
+class BmiCalculatorTest(TestCase):
     """Tests for the application views."""
 
     if django.VERSION[:2] >= (1, 7):
         # Django 1.7 requires an explicit setup() when running tests in PTVS
         @classmethod
         def setUpClass(cls):
-            super(ViewTest, cls).setUpClass()
+            super(BmiCalculatorTest, cls).setUpClass()
 
-    def test_unit_home(self):
-        """Tests the home page."""
-        response = self.client.get('/')
-        self.assertContains(response, 'SELab 關心您的身體健康', 1, 200, html=True)
-
-    def test_unit_normal(self):
-        """Tests the home page."""
-        response = self.client.post('/', {'height':1.7,'weight':"60"})
-        self.assertContains(response, '20.76', 1, 200, html=True)
-    
+    def test_bmi_result_normal(self):
+        """Tests bmi result."""
+        height = 1.6
+        weight = 55
+        bmi, bmi_means = bmi_calculator(height, weight)
+        self.assertEqual(bmi, 21.48)
+        self.assertEqual(bmi_means, '健康體位')

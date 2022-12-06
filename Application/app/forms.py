@@ -16,3 +16,13 @@ class BootstrapAuthenticationForm(AuthenticationForm):
                                widget=forms.PasswordInput({
                                    'class': 'form-control',
                                    'placeholder':'Password'}))
+
+class BmiForm(forms.Form):
+    height = forms.FloatField(
+        label='請輸入身高(m)', 
+        widget=forms.NumberInput(attrs={'class':'form-control'}),
+        error_messages={'required': '請輸入身高'})
+    weight = forms.CharField(
+        label='請輸入體重(kg)', 
+        widget=forms.TextInput(attrs={'class':'form-control'}),
+        error_messages={'required': '請輸入體重'})
